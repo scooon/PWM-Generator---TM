@@ -1,6 +1,11 @@
 #include <REG51.H>
 
 xdata unsigned char PTWY _at_ 0x8008;
+xdata unsigned char PSEG _at_ 0x8018;
+
+unsigned  char xdata cyferki[16] = {  0x3f,	0x06, 0x5b,	0x4f,	0x66,	0x6d,	0x7d,	0x07,	0x7f,	0x6f,	0x77, 0x79, 0x0F, 0x1F,	0x0E, 0X71};
+
+unsigned char seg=0, segmask=0, PTSEGB, kol_val = 0, wiersz_val = 0, key_val =0; 
 
 // PWM_Pin
 sbit PWM_Pin = 0x96;
@@ -193,7 +198,18 @@ TR1 = 0;    // Stop Timer 0
 TH1 = (unsigned char)(-5000 >> 8);
 TL1 = (unsigned char)(-5000 & 0x00ff);
 	
- PTWY = 0x05;	
+		seg=++seg&3; segmask=1<<seg;
+		P1=(P1&0xc0)|0x3c|seg;
+	  PSEG=cyferki[key_val];
+
+	for(wiersz_val = 0;wiersz_val<4; wiersz_val++)
+		{
+				if(!(P1&(4<<wiersz_val)))
+			{
+				key_val = seg + wiersz_val*4;
+			}
+		}
+	
  
 TF1 = 0;     // Czyszczenie flagi przerwania
 TR1 = 1;     // Start Timera
