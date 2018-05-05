@@ -40,7 +40,7 @@ void main (void)
 
   Init();              // Inicjalizacja         
 	
- PTWY = 0x01;	
+
 
 	// LCD INIT	
 	
@@ -128,10 +128,14 @@ void InitTimers(void)
 TMOD = 0x11;    // Zalaczanie przerwania 1 i 2
 TCON = 0x50;
 TH0 = 0x00;      // First time value
-TL0 = 0x00;      
+TL0 = 0x00; 
+TH1 = 0x00;      // First time value
+TL1 = 0x00;	
 ET0 = 1;         // Enable przerwan
-EA  = 1;        
-TR0 = 1;         // Start Timera 0
+EA  = 2;        
+TR0 = 1; 
+TR1 = 1;	
+	ET1 = 1;
 }
 
 
@@ -182,7 +186,6 @@ TR0 = 1;     // Start Timera
 }
 
 
-// Timer1
 void Timer1 (void) interrupt 3  
 {
 TR1 = 0;    // Stop Timer 0
@@ -190,7 +193,7 @@ TR1 = 0;    // Stop Timer 0
 TH1 = (unsigned char)(-5000 >> 8);
 TL1 = (unsigned char)(-5000 & 0x00ff);
 	
-
+ PTWY = 0x03;	
  
 TF1 = 0;     // Czyszczenie flagi przerwania
 TR1 = 1;     // Start Timera
