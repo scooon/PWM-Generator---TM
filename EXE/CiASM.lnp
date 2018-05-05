@@ -1,0 +1,4 @@
+".\EXE\main.obj",
+".\EXE\proc51.obj" 
+TO ".\EXE\CiASM" 
+PRINT(".\LST\CiASM.m51")
