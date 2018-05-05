@@ -193,7 +193,7 @@ TR1 = 0;    // Stop Timer 0
 TH1 = (unsigned char)(-5000 >> 8);
 TL1 = (unsigned char)(-5000 & 0x00ff);
 	
- PTWY = 0x03;	
+ PTWY = 0x05;	
  
 TF1 = 0;     // Czyszczenie flagi przerwania
 TR1 = 1;     // Start Timera
