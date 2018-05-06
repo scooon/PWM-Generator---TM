@@ -12,7 +12,7 @@ char q, z;
 
 // Klawiatura numeryczna
 unsigned char kol_val = 0, wiersz_val = 0, key_val =0, key_int = 0;
-int Pr = 0, liczba;
+int Pr = 0, liczba, locked;
 unsigned char freq[4];
 
 // PWM_Pin
@@ -83,6 +83,7 @@ void main (void)
  while(1)
  {
 	PWMfreq = 250;
+	 
   b=POT0();
   PWM = b; 
   DATW = 'W';
@@ -133,11 +134,19 @@ void main (void)
 	BUSYLCD();
   DATW = ' ';
   BUSYLCD();
-  DATW=freq[2];
+  DATW=freq[0]+'0';
   BUSYLCD();
-  DATW=freq[1];
+  DATW=freq[1]+'0';
   BUSYLCD();
-  DATW=freq[0];
+  DATW=freq[2]+'0';
+  BUSYLCD();
+	DATW=freq[3]+'0';
+  BUSYLCD();
+	DATW=' ';
+  BUSYLCD();
+	DATW='H';
+  BUSYLCD();
+	DATW='z';
   BUSYLCD();
   CTRLW=0xC0; 
   BUSYLCD();
@@ -252,12 +261,24 @@ TL1 = (unsigned char)(-5000 & 0x00ff);
 				key_val = key_val + wiersz_val*4;
 				Pr = key_val;
 				PTWY = Pr;
-				/*if(key_int>4){
+			
+				// Super kod filtrujacy klawisze
+				locked = Pr;
+				if(locked==999){
+				}else{
+						if(key_int>4){
 				key_int = 0;
 				}
 				freq[key_int]= Pr;
-				key_int = key_int+1;*/
+				key_int = key_int+1;
+				locked = 999;
+				}
+			
+				
+		
+				
 			}
+
 		}
 	
 	
