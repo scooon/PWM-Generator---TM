@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    05/05/2018  23:21:53  PAGE 1
-=======
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    05/06/2018  03:40:25  PAGE 1
->>>>>>> madagaskar
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    05/06/2018  03:48:30  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -30,13 +26,8 @@ LINK MAP OF MODULE:  .\EXE\CiASM (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-<<<<<<< HEAD
-            DATA    0008H     0012H     UNIT         ?DT?MAIN
-            IDATA   001AH     0001H     UNIT         ?STACK
-=======
             DATA    0008H     001FH     UNIT         ?DT?MAIN
             IDATA   0027H     0001H     UNIT         ?STACK
->>>>>>> madagaskar
 
             * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
                     0000H     8005H                  *** GAP ***
@@ -58,22 +49,6 @@ LINK MAP OF MODULE:  .\EXE\CiASM (MAIN)
                     000EH     000DH                  *** GAP ***
             CODE    001BH     0003H     ABSOLUTE     
                     001EH     07E2H                  *** GAP ***
-<<<<<<< HEAD
-            CODE    0800H     0169H     UNIT         ?PR?MAIN?MAIN
-            CODE    0969H     009DH     UNIT         ?C?LIB_CODE
-            CODE    0A06H     008CH     UNIT         ?C_C51STARTUP
-            CODE    0A92H     008BH     UNIT         ?PR?TIMER1?MAIN
-            CODE    0B1DH     0062H     UNIT         ?PR?TIMER0?MAIN
-            CODE    0B7FH     0037H     UNIT         ?C_INITSEG
-            CODE    0BB6H     001AH     UNIT         ?PR?INITTIMERS?MAIN
-            CODE    0BD0H     0015H     UNIT         ?PR?BUSYLCD?MAIN
-            CODE    0BE5H     0010H     UNIT         ?PR?POT0?MAIN
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/05/2018  23:21:53  PAGE 2
-
-
-            CODE    0BF5H     0006H     UNIT         ?PR?INIT?MAIN
-            CODE    0BFBH     0005H     UNIT         PRGSEG
-=======
             CODE    0800H     01DCH     UNIT         ?PR?MAIN?MAIN
             CODE    09DCH     009DH     UNIT         ?C?LIB_CODE
             CODE    0A79H     0094H     UNIT         ?PR?TIMER1?MAIN
@@ -84,13 +59,12 @@ LINK MAP OF MODULE:  .\EXE\CiASM (MAIN)
             CODE    0C56H     001AH     UNIT         ?PR?INITTIMERS?MAIN
             CODE    0C70H     0015H     UNIT         ?PR?BUSYLCD?MAIN
             CODE    0C85H     0011H     UNIT         ?CO?MAIN
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:40:25  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:48:30  PAGE 2
 
 
             CODE    0C96H     0010H     UNIT         ?PR?POT0?MAIN
             CODE    0CA6H     0006H     UNIT         ?PR?INIT?MAIN
             CODE    0CACH     0005H     UNIT         PRGSEG
->>>>>>> madagaskar
 
 
 
@@ -133,19 +107,11 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   D:0008H         PUBLIC        cycles
   X:8012H         PUBLIC        CTRLR
   X:8010H         PUBLIC        CTRLW
-<<<<<<< HEAD
-  C:0BB6H         PUBLIC        InitTimers
-  C:0BF5H         PUBLIC        Init
-  D:000AH         PUBLIC        cyfra
-  C:0BDDH         PUBLIC        BUSYLCD
-  C:0BE5H         PUBLIC        POT0
-=======
   C:0C56H         PUBLIC        InitTimers
   C:0CA6H         PUBLIC        Init
   D:000AH         PUBLIC        cyfra
   C:0C7DH         PUBLIC        BUSYLCD
   C:0C96H         PUBLIC        POT0
->>>>>>> madagaskar
   D:000CH         PUBLIC        PWMfreq
   C:0800H         PUBLIC        main
   X:8013H         PUBLIC        DATR
@@ -153,33 +119,20 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   D:000EH         PUBLIC        freq
   X:8011H         PUBLIC        DATW
   C:0B99H         PUBLIC        Timer0
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:40:25  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:48:30  PAGE 3
 
 
   C:0A79H         PUBLIC        Timer1
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
-<<<<<<< HEAD
-  D:000EH         PUBLIC        temp
-  D:0010H         PUBLIC        PTSEGB
-=======
   D:0012H         PUBLIC        temp
   D:0014H         PUBLIC        Pr
->>>>>>> madagaskar
   B:00A8H.1       PUBLIC        ET0
   B:00A8H.3       PUBLIC        ET1
   B:0088H.5       PUBLIC        TF0
   B:0088H.7       PUBLIC        TF1
-<<<<<<< HEAD
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/05/2018  23:21:53  PAGE 3
-
-
-  D:008CH         PUBLIC        TH0
-  D:0011H         PUBLIC        wiersz_val
-=======
   D:008CH         PUBLIC        TH0
   D:0016H         PUBLIC        wiersz_val
->>>>>>> madagaskar
   D:008DH         PUBLIC        TH1
   D:008AH         PUBLIC        TL0
   D:008BH         PUBLIC        TL1
@@ -187,119 +140,6 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   B:0088H.4       PUBLIC        TR0
   B:0088H.6       PUBLIC        TR1
   X:8005H         PUBLIC        PTAC0
-<<<<<<< HEAD
-  D:0012H         PUBLIC        b
-  D:0014H         PUBLIC        h
-  D:0016H         PUBLIC        kol_val
-  D:0017H         PUBLIC        key_val
-  D:0018H         PUBLIC        segmask
-  X:0000H         PUBLIC        cyferki
-  D:0019H         PUBLIC        PWM
-  B:0090H.6       PUBLIC        PWM_Pin
-  C:0BD3H         SYMBOL        L?0041
-  C:0BD9H         SYMBOL        L?0042
-  -------         PROC          L?0040
-  -------         ENDPROC       L?0040
-  C:0BD3H         SYMBOL        L?0041
-  C:0BD9H         SYMBOL        L?0042
-  -------         PROC          BUSYLCD
-  C:0BDDH         LINE#         38
-  C:0BDDH         LINE#         39
-  C:0BDDH         LINE#         40
-  C:0BE4H         LINE#         41
-  -------         ENDPROC       BUSYLCD
-  -------         PROC          MAIN
-  C:0800H         LINE#         43
-  C:0800H         LINE#         44
-  C:0800H         LINE#         46
-  C:0803H         LINE#         53
-  C:0818H         LINE#         54
-  C:081EH         LINE#         55
-  C:0833H         LINE#         56
-  C:0839H         LINE#         57
-  C:084CH         LINE#         58
-  C:0852H         LINE#         59
-  C:0855H         LINE#         60
-  C:085BH         LINE#         61
-  C:085EH         LINE#         62
-  C:0864H         LINE#         63
-  C:0867H         LINE#         64
-  C:086DH         LINE#         65
-  C:086FH         LINE#         66
-  C:0872H         LINE#         67
-  C:0878H         LINE#         68
-  C:087BH         LINE#         69
-  C:0881H         LINE#         70
-  C:0884H         LINE#         74
-  C:0884H         LINE#         75
-  C:0884H         LINE#         76
-  C:088AH         LINE#         78
-  C:0892H         LINE#         79
-  C:0895H         LINE#         80
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/05/2018  23:21:53  PAGE 4
-
-
-  C:0897H         LINE#         81
-  C:089AH         LINE#         82
-  C:08A0H         LINE#         83
-  C:08A3H         LINE#         84
-  C:08A9H         LINE#         85
-  C:08ACH         LINE#         86
-  C:08AEH         LINE#         87
-  C:08AEH         LINE#         88
-  C:08AEH         LINE#         89
-  C:08B1H         LINE#         90
-  C:08BFH         LINE#         91
-  C:08C2H         LINE#         92
-  C:08D1H         LINE#         93
-  C:08DFH         LINE#         94
-  C:08E2H         LINE#         95
-  C:08F0H         LINE#         96
-  C:08F3H         LINE#         97
-  C:08F9H         LINE#         98
-  C:08FCH         LINE#         101
-  C:0902H         LINE#         102
-  C:0905H         LINE#         103
-  C:090BH         LINE#         104
-  C:090EH         LINE#         105
-  C:0910H         LINE#         106
-  C:0910H         LINE#         107
-  C:0910H         LINE#         108
-  C:0913H         LINE#         109
-  C:0918H         LINE#         110
-  C:0918H         LINE#         111
-  C:0918H         LINE#         112
-  C:091BH         LINE#         113
-  C:0929H         LINE#         114
-  C:092CH         LINE#         115
-  C:093BH         LINE#         116
-  C:0949H         LINE#         117
-  C:094CH         LINE#         118
-  C:095AH         LINE#         119
-  C:095DH         LINE#         120
-  C:0963H         LINE#         121
-  C:0966H         LINE#         126
-  -------         ENDPROC       MAIN
-  -------         PROC          INITTIMERS
-  C:0BB6H         LINE#         131
-  C:0BB6H         LINE#         132
-  C:0BB6H         LINE#         133
-  C:0BB9H         LINE#         134
-  C:0BBCH         LINE#         135
-  C:0BBFH         LINE#         136
-  C:0BC1H         LINE#         137
-  C:0BC3H         LINE#         138
-  C:0BC5H         LINE#         139
-  C:0BC7H         LINE#         140
-  C:0BC9H         LINE#         141
-  C:0BCBH         LINE#         142
-  C:0BCDH         LINE#         143
-  C:0BCFH         LINE#         144
-  -------         ENDPROC       INITTIMERS
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/05/2018  23:21:53  PAGE 5
-
-
-=======
   D:0017H         PUBLIC        WYSW
   D:001BH         PUBLIC        b
   D:001DH         PUBLIC        h
@@ -339,7 +179,7 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   C:085BH         LINE#         70
   C:085EH         LINE#         71
   C:0864H         LINE#         72
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:40:25  PAGE 4
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:48:30  PAGE 4
 
 
   C:0867H         LINE#         73
@@ -399,7 +239,7 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   C:09BBH         LINE#         137
   C:09BEH         LINE#         138
   C:09C4H         LINE#         139
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:40:25  PAGE 5
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:48:30  PAGE 5
 
 
   C:09C7H         LINE#         140
@@ -424,26 +264,10 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   C:0C6DH         LINE#         165
   C:0C6FH         LINE#         166
   -------         ENDPROC       INITTIMERS
->>>>>>> madagaskar
   -------         PROC          POT0
   -------         DO            
   D:0007H         SYMBOL        a
   -------         ENDDO         
-<<<<<<< HEAD
-  C:0BE5H         LINE#         148
-  C:0BE5H         LINE#         149
-  C:0BE5H         LINE#         150
-  C:0BE7H         LINE#         151
-  C:0BEBH         LINE#         152
-  C:0BEFH         LINE#         153
-  C:0BF4H         LINE#         154
-  -------         ENDPROC       POT0
-  -------         PROC          INIT
-  C:0BF5H         LINE#         159
-  C:0BF5H         LINE#         160
-  C:0BF5H         LINE#         161
-  C:0BF8H         LINE#         162
-=======
   C:0C96H         LINE#         170
   C:0C96H         LINE#         171
   C:0C96H         LINE#         172
@@ -457,7 +281,6 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   C:0CA6H         LINE#         182
   C:0CA6H         LINE#         183
   C:0CA9H         LINE#         184
->>>>>>> madagaskar
   -------         ENDPROC       INIT
   -------         PROC          _LENGHT
   D:0006H         SYMBOL        x
@@ -476,7 +299,7 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   -------         PROC          TIMER0
   C:0B99H         LINE#         207
   C:0BACH         LINE#         209
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:40:25  PAGE 6
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:48:30  PAGE 6
 
 
   C:0BAEH         LINE#         211
@@ -499,29 +322,6 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   C:0BEAH         LINE#         231
   -------         ENDPROC       TIMER0
   -------         PROC          TIMER1
-<<<<<<< HEAD
-  C:0A92H         LINE#         194
-  C:0AA5H         LINE#         196
-  C:0AA7H         LINE#         198
-  C:0AAAH         LINE#         199
-  C:0AADH         LINE#         201
-  C:0AB5H         LINE#         202
-  C:0AC3H         LINE#         203
-  C:0ACDH         LINE#         204
-  C:0ADDH         LINE#         206
-  C:0AE0H         LINE#         207
-  C:0AE0H         LINE#         208
-  C:0AF7H         LINE#         209
-  C:0AF7H         LINE#         210
-  C:0B01H         LINE#         211
-  C:0B01H         LINE#         212
-  C:0B08H         LINE#         215
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/05/2018  23:21:53  PAGE 6
-
-
-  C:0B0AH         LINE#         216
-  C:0B0CH         LINE#         217
-=======
   C:0A79H         LINE#         234
   C:0A8CH         LINE#         236
   C:0A8EH         LINE#         238
@@ -542,26 +342,16 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   C:0AF8H         LINE#         266
   C:0AFAH         LINE#         267
   C:0AFCH         LINE#         268
->>>>>>> madagaskar
   -------         ENDPROC       TIMER1
   -------         ENDMOD        MAIN
 
   -------         MODULE        PROC51
-<<<<<<< HEAD
-  C:0BFBH         SEGMENT       PRGSEG
-  C:0BFBH         PUBLIC        POTASM
-  N:8006H         SYMBOL        PTWY
-  C:0BFBH         LINE#         30
-  C:0BFEH         LINE#         31
-  C:0BFFH         LINE#         32
-=======
   C:0CACH         SEGMENT       PRGSEG
   C:0CACH         PUBLIC        POTASM
   N:8006H         SYMBOL        PTWY
   C:0CACH         LINE#         30
   C:0CAFH         LINE#         31
   C:0CB0H         LINE#         32
->>>>>>> madagaskar
   -------         ENDMOD        PROC51
 
   -------         MODULE        ?C?IMUL
@@ -569,7 +359,7 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   -------         ENDMOD        ?C?IMUL
 
   -------         MODULE        ?C?UIDIV
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:40:25  PAGE 7
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  05/06/2018  03:48:30  PAGE 7
 
 
   C:09EEH         PUBLIC        ?C?UIDIV
@@ -580,15 +370,8 @@ SYMBOL TABLE OF MODULE:  .\EXE\CiASM (MAIN)
   -------         ENDMOD        ?C?SIDIV
 
 ******************************************************************************
-<<<<<<< HEAD
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 02DCH BYTE (35%) *
-******************************************************************************
-
-Program Size: data=27.0 xdata=23 code=1033
-=======
 * RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 038DH BYTE (44%) *
 ******************************************************************************
 
 Program Size: data=40.0 xdata=7 code=1210
->>>>>>> madagaskar
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
