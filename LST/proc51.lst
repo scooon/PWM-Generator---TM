@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  PROC51                                                               05/05/2018 23:06:01 PAGE     1
+=======
+A51 MACRO ASSEMBLER  PROC51                                                               05/06/2018 00:27:18 PAGE     1
+>>>>>>> madagaskar
 
 
 MACRO ASSEMBLER A51 V8.2.7.0
@@ -52,7 +56,11 @@ LOC  OBJ            LINE     SOURCE
                               jezyka C.
                       33     
                       34                     END
+<<<<<<< HEAD
 A51 MACRO ASSEMBLER  PROC51                                                               05/05/2018 23:06:01 PAGE     2
+=======
+A51 MACRO ASSEMBLER  PROC51                                                               05/06/2018 00:27:18 PAGE     2
+>>>>>>> madagaskar
 
 SYMBOL TABLE LISTING
 ------ ----- -------

@@ -1,17 +1,26 @@
 #include <REG51.H>
 
+// Diody
 xdata unsigned char PTWY _at_ 0x8008;
-xdata unsigned char PSEG _at_ 0x8018;
 
-unsigned  char xdata cyferki[16] = {  0x3f,	0x06, 0x5b,	0x4f,	0x66,	0x6d,	0x7d,	0x07,	0x7f,	0x6f,	0x77, 0x79, 0x0F, 0x1F,	0x0E, 0X71};
 
-unsigned char seg=0, segmask=0, PTSEGB, kol_val = 0, wiersz_val = 0, key_val =0; 
+// WYSW segmentowy LED
+xdata unsigned char WLED _at_ 0x8018;
+unsigned char WYSW[4];
+code const unsigned char cyferki[17] = {  0x3f,	0x06, 0x5b,	0x4f,	0x66,	0x6d,	0x7d,	0x07,	0x7f,	0x6f,	0x77, 0x79, 0x0F, 0x1F,	0x0E, 0X71, 0x00};
+char q, z;
+
+// Klawiatura numeryczna
+unsigned char kol_val = 0, wiersz_val = 0, key_val =0, key_int = 0;
+int Pr = 0, liczba;
+unsigned char freq[4];
 
 // PWM_Pin
 sbit PWM_Pin = 0x96;
 
 // Deklaracje
 void Init(void);
+int lenght(int x);
 
 // Zmienne PWM
 unsigned char PWM = 0;	  //  0 (0%) - 255 (100%)
@@ -74,29 +83,43 @@ void main (void)
  while(1)
  {
 	PWMfreq = 250;
-	
   b=POT0();
   PWM = b; 
+  DATW = 'W';
+  BUSYLCD();
+  DATW = 'Y';
+  BUSYLCD();
   DATW = 'P';
-  BUSYLCD();
-  DATW = 'O';
-  BUSYLCD();
-  DATW = 'T';
-  BUSYLCD();
-  DATW = '0';
   BUSYLCD();
   DATW = ' ';
   BUSYLCD();
+	b=(b*100)/255;
   DATW=b/100+'0';
   BUSYLCD();
-  b=b%100;
-  DATW=b/10+'0';
+  DATW=(b/10)%10+'0';
   BUSYLCD();
   DATW=b%10+'0';
   BUSYLCD();
   CTRLW=0x80; 
   BUSYLCD();
 	
+	
+	// Wypelnienie WLED
+	for(z=0;z<4;z++){WYSW[z] = 16;};
+
+	liczba = (POT0()*100)/255;
+	if(lenght(liczba)==2){
+	WYSW[1] = liczba%10;
+	WYSW[2] = liczba/10;
+	}else if(lenght(liczba)==1){
+	WYSW[2] = liczba%10;
+	}else if(lenght(liczba)==3){
+	WYSW[0] = liczba%10;
+	WYSW[1] = (liczba/10)%10;
+	WYSW[2] = liczba/100;
+	}
+	
+
 	
   DATW = 'P';
   BUSYLCD();
@@ -110,12 +133,11 @@ void main (void)
 	BUSYLCD();
   DATW = ' ';
   BUSYLCD();
-  DATW=PWMfreq/100+'0';
+  DATW=freq[2];
   BUSYLCD();
-  PWMfreq=PWMfreq%100;
-  DATW=PWMfreq/10+'0';
+  DATW=freq[1];
   BUSYLCD();
-  DATW=PWMfreq%10+'0';
+  DATW=freq[0];
   BUSYLCD();
   CTRLW=0xC0; 
   BUSYLCD();
@@ -140,7 +162,7 @@ ET0 = 1;         // Enable przerwan
 EA  = 2;        
 TR0 = 1; 
 TR1 = 1;	
-	ET1 = 1;
+ET1 = 1;
 }
 
 
@@ -162,6 +184,24 @@ PWM = 0;         // Wypelnienie 0
 InitTimers();    // Uruchom timer przerwan
 
 }
+
+
+int lenght(int x) {
+    if(x>=1000){
+			return 4;
+		}else if(x>=100){
+			return 3;
+		}else if(x>=10){
+			return 2;
+		}else{
+    return 1;
+		}
+}
+
+
+
+
+
 
 // Timer0
 void Timer0 (void) interrupt 1  
@@ -198,17 +238,29 @@ TR1 = 0;    // Stop Timer 0
 TH1 = (unsigned char)(-5000 >> 8);
 TL1 = (unsigned char)(-5000 & 0x00ff);
 	
-		seg=++seg&3; segmask=1<<seg;
-		P1=(P1&0xc0)|0x3c|seg;
-	  PSEG=cyferki[key_val];
-
+		key_val=++key_val&3; 
+		P1=(P1&0xc0)|0x3c|key_val;
+	  //PSEG=cyferki[Pr];
+	
+			WLED = cyferki[WYSW[q]];
+		if(++q>3){q=0;} 
+	
 	for(wiersz_val = 0;wiersz_val<4; wiersz_val++)
 		{
 				if(!(P1&(4<<wiersz_val)))
 			{
-				key_val = seg + wiersz_val*4;
+				key_val = key_val + wiersz_val*4;
+				Pr = key_val;
+				PTWY = Pr;
+				/*if(key_int>4){
+				key_int = 0;
+				}
+				freq[key_int]= Pr;
+				key_int = key_int+1;*/
 			}
 		}
+	
+	
 	
  
 TF1 = 0;     // Czyszczenie flagi przerwania
