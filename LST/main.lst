@@ -1,249 +1,298 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              05/05/2018 23:32:57 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              05/06/2018 03:40:25 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\EXE\main.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\LST\main.lst)
-                    - TABS(2) OBJECT(.\EXE\main.obj)
+COMPILER INVOKED BY: G:\Program Files\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\LST\main.lst) TABS(2) OBJECT(.\EXE\main.obj)
 
 line level    source
 
    1          #include <REG51.H>
    2          
-   3          xdata unsigned char PTWY _at_ 0x8008;
-   4          xdata unsigned char PSEG _at_ 0x8018;
+   3          // Diody
+   4          xdata unsigned char PTWY _at_ 0x8008;
    5          
-   6          unsigned  char xdata cyferki[16] = {  0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f, 0x77, 0x
-             -79, 0x0F, 0x1F, 0x0E, 0X71};
-   7          
-   8          unsigned char seg=0, segmask=0, PTSEGB, kol_val = 0, wiersz_val = 0, key_val =0;
-   9          
-  10          int Pr = 0;
-  11          
-  12          // PWM_Pin
-  13          sbit PWM_Pin = 0x96;
-  14          
-  15          // Deklaracje
-  16          void Init(void);
+   6          
+   7          // WYSW segmentowy LED
+   8          xdata unsigned char WLED _at_ 0x8018;
+   9          unsigned char WYSW[4];
+  10          code const unsigned char cyferki[17] = {  0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f, 0x77
+             -, 0x79, 0x0F, 0x1F, 0x0E, 0X71, 0x00};
+  11          char q, z;
+  12          
+  13          // Klawiatura numeryczna
+  14          unsigned char kol_val = 0, wiersz_val = 0, key_val =0, key_int = 0;
+  15          int Pr = 0, liczba;
+  16          unsigned char freq[4];
   17          
-  18          // Zmienne PWM
-  19          unsigned char PWM = 0;    //  0 (0%) - 255 (100%)
-  20          unsigned int temp = 0;    // Dla przerwania
-  21          
-  22          int PWMfreq = 1;  // Czestotliwosc
-  23          
-  24          // LCD
-  25          xdata unsigned char CTRLW _at_ 0x8010;
-  26          xdata unsigned char DATW _at_ 0x8011;
-  27          xdata unsigned char CTRLR _at_ 0x8012;
-  28          xdata unsigned char DATR _at_ 0x8013;
-  29          
+  18          // PWM_Pin
+  19          sbit PWM_Pin = 0x96;
+  20          
+  21          // Deklaracje
+  22          void Init(void);
+  23          int lenght(int x);
+  24          
+  25          // Zmienne PWM
+  26          unsigned char PWM = 0;    //  0 (0%) - 255 (100%)
+  27          unsigned int temp = 0;    // Dla przerwania
+  28          
+  29          int PWMfreq = 1;  // Czestotliwosc
   30          
-  31          // ADC
-  32          xdata unsigned char PTAC0 _at_ 0x8005;
-  33          unsigned char POT0(void);
-  34          
-  35          
-  36          unsigned int cycles = 0;
-  37          unsigned int cyfra = 0;
-  38           unsigned int b;
-  39           int h = 0;
-  40          void BUSYLCD(void)
-  41          {
-  42   1       while (CTRLR&0x80);
-  43   1      }
-  44          
-  45          void main (void)
-  46          {
-  47   1      
-  48   1        Init();              // Inicjalizacja         
-  49   1        
-  50   1      
-  51   1      
-  52   1        // LCD INIT 
-  53   1        
-C51 COMPILER V9.57.0.0   MAIN                                                              05/05/2018 23:32:57 PAGE 2   
+  31          // LCD
+  32          xdata unsigned char CTRLW _at_ 0x8010;
+  33          xdata unsigned char DATW _at_ 0x8011;
+  34          xdata unsigned char CTRLR _at_ 0x8012;
+  35          xdata unsigned char DATR _at_ 0x8013;
+  36          
+  37          
+  38          // ADC
+  39          xdata unsigned char PTAC0 _at_ 0x8005;
+  40          unsigned char POT0(void);
+  41          
+  42          
+  43          unsigned int cycles = 0;
+  44          unsigned int cyfra = 0;
+  45           unsigned int b;
+  46           int h = 0;
+  47          void BUSYLCD(void)
+  48          {
+  49   1       while (CTRLR&0x80);
+  50   1      }
+  51          
+  52          void main (void)
+  53          {
+C51 COMPILER V9.57.0.0   MAIN                                                              05/06/2018 03:40:25 PAGE 2   
 
   54   1      
-  55   1       for(b=0;b<15000;b++);
-  56   1       CTRLW=0x38;
-  57   1       for(b=0;b<4200;b++);
-  58   1       CTRLW=0x38;
-  59   1       for(b=0;b<120;b++);
-  60   1       CTRLW=0x38;
-  61   1       BUSYLCD();
-  62   1       CTRLW=0x38;
-  63   1       BUSYLCD();
-  64   1       CTRLW=0x0c;
-  65   1       BUSYLCD();
-  66   1       CTRLW=0x02;
-  67   1       CTRLW=0x01;
+  55   1        Init();              // Inicjalizacja         
+  56   1        
+  57   1      
+  58   1      
+  59   1        // LCD INIT 
+  60   1        
+  61   1      
+  62   1       for(b=0;b<15000;b++);
+  63   1       CTRLW=0x38;
+  64   1       for(b=0;b<4200;b++);
+  65   1       CTRLW=0x38;
+  66   1       for(b=0;b<120;b++);
+  67   1       CTRLW=0x38;
   68   1       BUSYLCD();
-  69   1       CTRLW=0x06;
+  69   1       CTRLW=0x38;
   70   1       BUSYLCD();
-  71   1       CTRLW=0x80;
+  71   1       CTRLW=0x0c;
   72   1       BUSYLCD();
-  73   1      
-  74   1      
-  75   1       
-  76   1       while(1)
-  77   1       {
-  78   2        PWMfreq = 250;
-  79   2        
-  80   2        b=POT0();
-  81   2        PWM = b; 
-  82   2        DATW = 'P';
-  83   2        BUSYLCD();
-  84   2        DATW = 'O';
-  85   2        BUSYLCD();
-  86   2        DATW = 'T';
-  87   2        BUSYLCD();
-  88   2        DATW = '0';
+  73   1       CTRLW=0x02;
+  74   1       CTRLW=0x01;
+  75   1       BUSYLCD();
+  76   1       CTRLW=0x06;
+  77   1       BUSYLCD();
+  78   1       CTRLW=0x80;
+  79   1       BUSYLCD();
+  80   1      
+  81   1      
+  82   1       
+  83   1       while(1)
+  84   1       {
+  85   2        PWMfreq = 250;
+  86   2        b=POT0();
+  87   2        PWM = b; 
+  88   2        DATW = 'W';
   89   2        BUSYLCD();
-  90   2        DATW = ' ';
+  90   2        DATW = 'Y';
   91   2        BUSYLCD();
-  92   2        DATW=Pr/100+'0';
+  92   2        DATW = 'P';
   93   2        BUSYLCD();
-  94   2        b=Pr%100;
-  95   2        DATW=Pr/10+'0';
-  96   2        BUSYLCD();
-  97   2        DATW=Pr%10+'0';
+  94   2        DATW = ' ';
+  95   2        BUSYLCD();
+  96   2        b=(b*100)/255;
+  97   2        DATW=b/100+'0';
   98   2        BUSYLCD();
-  99   2        CTRLW=0x80; 
+  99   2        DATW=(b/10)%10+'0';
  100   2        BUSYLCD();
- 101   2        
- 102   2        
- 103   2        DATW = 'P';
+ 101   2        DATW=b%10+'0';
+ 102   2        BUSYLCD();
+ 103   2        CTRLW=0x80; 
  104   2        BUSYLCD();
- 105   2        DATW = 'W';
- 106   2        BUSYLCD();
- 107   2        DATW = 'M';
- 108   2        BUSYLCD();
- 109   2        DATW = ' ';
- 110   2        BUSYLCD();
- 111   2        DATW = 'f';
- 112   2        BUSYLCD();
- 113   2        DATW = ' ';
- 114   2        BUSYLCD();
- 115   2        DATW=PWMfreq/100+'0';
-C51 COMPILER V9.57.0.0   MAIN                                                              05/05/2018 23:32:57 PAGE 3   
+ 105   2        
+ 106   2        
+ 107   2        // Wypelnienie WLED
+ 108   2        for(z=0;z<4;z++){WYSW[z] = 16;};
+ 109   2      
+ 110   2        liczba = (POT0()*100)/255;
+ 111   2        if(lenght(liczba)==2){
+ 112   3        WYSW[1] = liczba%10;
+ 113   3        WYSW[2] = liczba/10;
+ 114   3        }else if(lenght(liczba)==1){
+ 115   3        WYSW[2] = liczba%10;
+C51 COMPILER V9.57.0.0   MAIN                                                              05/06/2018 03:40:25 PAGE 3   
 
- 116   2        BUSYLCD();
- 117   2        PWMfreq=PWMfreq%100;
- 118   2        DATW=PWMfreq/10+'0';
- 119   2        BUSYLCD();
- 120   2        DATW=PWMfreq%10+'0';
- 121   2        BUSYLCD();
- 122   2        CTRLW=0xC0; 
- 123   2        BUSYLCD();
- 124   2        
- 125   2        
- 126   2       
- 127   2        
- 128   2       }
- 129   1      }
- 130          
- 131          
- 132          // Timer0 init
- 133          void InitTimers(void)
- 134          {
- 135   1      TMOD = 0x11;    // Zalaczanie przerwania 1 i 2
- 136   1      TCON = 0x50;
- 137   1      TH0 = 0x00;      // First time value
- 138   1      TL0 = 0x00; 
- 139   1      TH1 = 0x00;      // First time value
- 140   1      TL1 = 0x00; 
- 141   1      ET0 = 1;         // Enable przerwan
- 142   1      EA  = 2;        
- 143   1      TR0 = 1; 
- 144   1      TR1 = 1;  
- 145   1        ET1 = 1;
- 146   1      }
- 147          
- 148          
- 149          // Odczyt z ADCka POT0
- 150          unsigned char POT0(void)
- 151          {
- 152   1       unsigned char a=0;
- 153   1       PTAC0=0;
- 154   1       for(a=0;a<120;a++);
- 155   1       return PTAC0;
- 156   1      }
- 157          
- 158          
- 159          
- 160          // Init PWM & Timerów
- 161          void Init(void)
- 162          {
- 163   1      PWM = 0;         // Wypelnienie 0
- 164   1      InitTimers();    // Uruchom timer przerwan
- 165   1      
+ 116   3        }else if(lenght(liczba)==3){
+ 117   3        WYSW[0] = liczba%10;
+ 118   3        WYSW[1] = (liczba/10)%10;
+ 119   3        WYSW[2] = liczba/100;
+ 120   3        }
+ 121   2        
+ 122   2      
+ 123   2        
+ 124   2        DATW = 'P';
+ 125   2        BUSYLCD();
+ 126   2        DATW = 'W';
+ 127   2        BUSYLCD();
+ 128   2        DATW = 'M';
+ 129   2        BUSYLCD();
+ 130   2        DATW = ' ';
+ 131   2        BUSYLCD();
+ 132   2        DATW = 'f';
+ 133   2        BUSYLCD();
+ 134   2        DATW = ' ';
+ 135   2        BUSYLCD();
+ 136   2        DATW=freq[2];
+ 137   2        BUSYLCD();
+ 138   2        DATW=freq[1];
+ 139   2        BUSYLCD();
+ 140   2        DATW=freq[0];
+ 141   2        BUSYLCD();
+ 142   2        CTRLW=0xC0; 
+ 143   2        BUSYLCD();
+ 144   2        
+ 145   2        
+ 146   2       
+ 147   2        
+ 148   2       }
+ 149   1      }
+ 150          
+ 151          
+ 152          // Timer0 init
+ 153          void InitTimers(void)
+ 154          {
+ 155   1      TMOD = 0x11;    // Zalaczanie przerwania 1 i 2
+ 156   1      TCON = 0x50;
+ 157   1      TH0 = 0x00;      // First time value
+ 158   1      TL0 = 0x00; 
+ 159   1      TH1 = 0x00;      // First time value
+ 160   1      TL1 = 0x00; 
+ 161   1      ET0 = 1;         // Enable przerwan
+ 162   1      EA  = 2;        
+ 163   1      TR0 = 1; 
+ 164   1      TR1 = 1;  
+ 165   1      ET1 = 1;
  166   1      }
  167          
- 168          // Timer0
- 169          void Timer0 (void) interrupt 1  
- 170          {
- 171   1      TR0 = 0;    // Stop Timer 0
- 172   1       
- 173   1      TH0 = (unsigned char)(-5000 >> 8);
- 174   1      TL0 = (unsigned char)(-5000 & 0x00ff);
- 175   1        
- 176   1      if(PWM_Pin) // Na stan wysoki
- 177   1      {
-C51 COMPILER V9.57.0.0   MAIN                                                              05/05/2018 23:32:57 PAGE 4   
+ 168          
+ 169          // Odczyt z ADCka POT0
+ 170          unsigned char POT0(void)
+ 171          {
+ 172   1       unsigned char a=0;
+ 173   1       PTAC0=0;
+ 174   1       for(a=0;a<120;a++);
+ 175   1       return PTAC0;
+ 176   1      }
+ 177          
+C51 COMPILER V9.57.0.0   MAIN                                                              05/06/2018 03:40:25 PAGE 4   
 
- 178   2      PWM_Pin = 0;
- 179   2      temp = (255-PWM)*PWMfreq;
- 180   2      TH0  = 0xFF - (temp>>8)&0xFF;
- 181   2      TL0  = 0xFF - temp&0xFF;
- 182   2      }
- 183   1      else       // Na stan niski
- 184   1      {
- 185   2      PWM_Pin = 1;
- 186   2      temp = PWM*PWMfreq;
- 187   2      TH0  = 0xFF - (temp>>8)&0xFF;
- 188   2      TL0  = 0xFF - temp&0xFF;
- 189   2      }
- 190   1       
- 191   1      TF0 = 0;     // Czyszczenie flagi przerwania
- 192   1      TR0 = 1;     // Start Timera
- 193   1      }
- 194          
- 195          
- 196          void Timer1 (void) interrupt 3  
- 197          {
- 198   1      TR1 = 0;    // Stop Timer 0
- 199   1       
- 200   1      TH1 = (unsigned char)(-5000 >> 8);
- 201   1      TL1 = (unsigned char)(-5000 & 0x00ff);
- 202   1        
- 203   1            seg=++seg&3; 
- 204   1        segmask=1<<seg;
- 205   1          P1=(P1&0xc0)|0x3c|seg;
- 206   1          PSEG=cyferki[key_val];
- 207   1      
- 208   1        for(wiersz_val = 0;wiersz_val<4; wiersz_val++)
- 209   1          {
- 210   2              if(!(P1&(4<<wiersz_val)))
- 211   2            {
- 212   3              seg = seg + wiersz_val*4;
- 213   3              PTWY = P1;
- 214   3              Pr = P1;
- 215   3            }
- 216   2          }
- 217   1        
- 218   1       
- 219   1      TF1 = 0;     // Czyszczenie flagi przerwania
- 220   1      TR1 = 1;     // Start Timera
- 221   1      }
+ 178          
+ 179          
+ 180          // Init PWM & Timerów
+ 181          void Init(void)
+ 182          {
+ 183   1      PWM = 0;         // Wypelnienie 0
+ 184   1      InitTimers();    // Uruchom timer przerwan
+ 185   1      
+ 186   1      }
+ 187          
+ 188          
+ 189          int lenght(int x) {
+ 190   1          if(x>=1000){
+ 191   2            return 4;
+ 192   2          }else if(x>=100){
+ 193   2            return 3;
+ 194   2          }else if(x>=10){
+ 195   2            return 2;
+ 196   2          }else{
+ 197   2          return 1;
+ 198   2          }
+ 199   1      }
+ 200          
+ 201          
+ 202          
+ 203          
+ 204          
+ 205          
+ 206          // Timer0
+ 207          void Timer0 (void) interrupt 1  
+ 208          {
+ 209   1      TR0 = 0;    // Stop Timer 0
+ 210   1       
+ 211   1      TH0 = (unsigned char)(-5000 >> 8);
+ 212   1      TL0 = (unsigned char)(-5000 & 0x00ff);
+ 213   1        
+ 214   1      if(PWM_Pin) // Na stan wysoki
+ 215   1      {
+ 216   2      PWM_Pin = 0;
+ 217   2      temp = (255-PWM)*PWMfreq;
+ 218   2      TH0  = 0xFF - (temp>>8)&0xFF;
+ 219   2      TL0  = 0xFF - temp&0xFF;
+ 220   2      }
+ 221   1      else       // Na stan niski
+ 222   1      {
+ 223   2      PWM_Pin = 1;
+ 224   2      temp = PWM*PWMfreq;
+ 225   2      TH0  = 0xFF - (temp>>8)&0xFF;
+ 226   2      TL0  = 0xFF - temp&0xFF;
+ 227   2      }
+ 228   1       
+ 229   1      TF0 = 0;     // Czyszczenie flagi przerwania
+ 230   1      TR0 = 1;     // Start Timera
+ 231   1      }
+ 232          
+ 233          
+ 234          void Timer1 (void) interrupt 3  
+ 235          {
+ 236   1      TR1 = 0;    // Stop Timer 0
+ 237   1       
+ 238   1      TH1 = (unsigned char)(-5000 >> 8);
+ 239   1      TL1 = (unsigned char)(-5000 & 0x00ff);
+C51 COMPILER V9.57.0.0   MAIN                                                              05/06/2018 03:40:25 PAGE 5   
+
+ 240   1        
+ 241   1          key_val=++key_val&3; 
+ 242   1          P1=(P1&0xc0)|0x3c|key_val;
+ 243   1          //PSEG=cyferki[Pr];
+ 244   1        
+ 245   1            WLED = cyferki[WYSW[q]];
+ 246   1          if(++q>3){q=0;} 
+ 247   1        
+ 248   1        for(wiersz_val = 0;wiersz_val<4; wiersz_val++)
+ 249   1          {
+ 250   2              if(!(P1&(4<<wiersz_val)))
+ 251   2            {
+ 252   3              key_val = key_val + wiersz_val*4;
+ 253   3              Pr = key_val;
+ 254   3              PTWY = Pr;
+ 255   3              /*if(key_int>4){
+ 256   3              key_int = 0;
+ 257   3              }
+ 258   3              freq[key_int]= Pr;
+ 259   3              key_int = key_int+1;*/
+ 260   3            }
+ 261   2          }
+ 262   1        
+ 263   1        
+ 264   1        
+ 265   1       
+ 266   1      TF1 = 0;     // Czyszczenie flagi przerwania
+ 267   1      TR1 = 1;     // Start Timera
+ 268   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    680    ----
-   CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     16    ----
+   CODE SIZE        =    842    ----
+   CONSTANT SIZE    =     17    ----
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     21    ----
+   DATA SIZE        =     31    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
