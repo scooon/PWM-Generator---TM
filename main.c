@@ -244,8 +244,8 @@ void Timer1 (void) interrupt 3
 {
 TR1 = 0;    // Stop Timer 0
  
-TH1 = (unsigned char)(-5000 >> 8);
-TL1 = (unsigned char)(-5000 & 0x00ff);
+TH1 = (unsigned char)(-2500 >> 16);
+TL1 = (unsigned char)(-2500 & 0xffff);
 	
 		key_val=++key_val&3; 
 		P1=(P1&0xc0)|0x3c|key_val;
