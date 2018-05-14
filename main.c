@@ -1,19 +1,30 @@
 #include <REG51.H>
 
-// Diody
-xdata unsigned char PTWY _at_ 0x8008;
+extern void a_func (void);
+
 
 
 // WYSW segmentowy LED
 xdata unsigned char WLED _at_ 0x8018;
 unsigned char WYSW[4];
 code const unsigned char cyferki[17] = {  0x3f,	0x06, 0x5b,	0x4f,	0x66,	0x6d,	0x7d,	0x07,	0x7f,	0x6f,	0x77, 0x79, 0x0F, 0x1F,	0x0E, 0X71, 0x00};
-char q, z;
+char q, z,k, seg;
 
 // Klawiatura numeryczna
-unsigned char kol_val = 0, wiersz_val = 0, key_val =0, key_int = 0;
-int Pr = 0, liczba, locked;
-unsigned char freq[4];
+unsigned char key_val;
+sbit P1_0=0x90;                      
+sbit P1_1=0x91;												
+sbit P1_2=0x92;
+sbit P1_3=0x93;
+sbit P1_4=0x94;
+sbit P1_5=0x95;
+
+char locked = 0;
+int k0,k1,o=0,tempfreq;
+unsigned int klik[3];
+
+	
+	
 
 // PWM_Pin
 sbit PWM_Pin = 0x96;
@@ -26,7 +37,7 @@ int lenght(int x);
 unsigned char PWM = 0;	  //  0 (0%) - 255 (100%)
 unsigned int temp = 0;    // Dla przerwania
 
-int PWMfreq = 1;	// Czestotliwosc
+int PWMfreq = 0;	// Czestotliwosc
 
 // LCD
 xdata unsigned char CTRLW _at_ 0x8010;
@@ -35,17 +46,31 @@ xdata unsigned char CTRLR _at_ 0x8012;
 xdata unsigned char DATR _at_ 0x8013;
 
 
-// ADC
-xdata unsigned char PTAC0 _at_ 0x8005;
-unsigned char POT0(void);
-
 
 unsigned int cycles = 0;
 unsigned int cyfra = 0;
  unsigned int b;
- int h = 0;
-void BUSYLCD(void)
+ int h = 0, liczba;
+
+void Init_LCD(void)
 {
+	for(b=0;b<15000;b++);
+ CTRLW=0x38;
+ for(b=0;b<4200;b++);
+ CTRLW=0x38;
+ for(b=0;b<120;b++);
+ CTRLW=0x38;
+ while (CTRLR&0x80);
+ CTRLW=0x38;
+ while (CTRLR&0x80);
+ CTRLW=0x0c;
+ while (CTRLR&0x80);
+ CTRLW=0x02;
+ CTRLW=0x01;
+ while (CTRLR&0x80);
+ CTRLW=0x06;
+ while (CTRLR&0x80);
+ CTRLW=0x80;
  while (CTRLR&0x80);
 }
 
@@ -53,108 +78,102 @@ void main (void)
 {
 
   Init();              // Inicjalizacja         
+	Init_LCD();
 	
+	klik[0] = 0;
+	klik[1] = 0;
+	klik[2] = 0;
 
-
-	// LCD INIT	
-	
-
- for(b=0;b<15000;b++);
- CTRLW=0x38;
- for(b=0;b<4200;b++);
- CTRLW=0x38;
- for(b=0;b<120;b++);
- CTRLW=0x38;
- BUSYLCD();
- CTRLW=0x38;
- BUSYLCD();
- CTRLW=0x0c;
- BUSYLCD();
- CTRLW=0x02;
- CTRLW=0x01;
- BUSYLCD();
- CTRLW=0x06;
- BUSYLCD();
- CTRLW=0x80;
- BUSYLCD();
-
-
- 
  while(1)
  {
-	PWMfreq = 250;
-	 
-  b=POT0();
+	 tempfreq = (klik[0]*100)+(klik[1]*10)+klik[2];
+	 if(tempfreq>0){
+		 PWMfreq = tempfreq;
+	 }else{
+	 PWMfreq = 1;
+	 klik[2] = 1;
+	 }
+	 if(tempfreq>112){
+	 PWMfreq = 100;
+	 klik[0] = 100;
+	 }
+  b=potencjometr();
   PWM = b; 
   DATW = 'W';
-  BUSYLCD();
+		while (CTRLR&0x80);
   DATW = 'Y';
-  BUSYLCD();
+		while (CTRLR&0x80);
   DATW = 'P';
-  BUSYLCD();
+	 	while (CTRLR&0x80);
+	DATW = ':';
+		while (CTRLR&0x80);
   DATW = ' ';
-  BUSYLCD();
+		while (CTRLR&0x80);
 	b=(b*100)/255;
   DATW=b/100+'0';
-  BUSYLCD();
+		while (CTRLR&0x80);
   DATW=(b/10)%10+'0';
-  BUSYLCD();
+		while (CTRLR&0x80);
   DATW=b%10+'0';
-  BUSYLCD();
-  CTRLW=0x80; 
-  BUSYLCD();
-	
+		while (CTRLR&0x80);
+	DATW=' ';
+		while (CTRLR&0x80);
+	DATW='%';
+		while (CTRLR&0x80);		
+	CTRLW=0x80; 
+		while (CTRLR&0x80);
 	
 	// Wypelnienie WLED
 	for(z=0;z<4;z++){WYSW[z] = 16;};
 
-	liczba = (POT0()*100)/255;
-	if(lenght(liczba)==2){
-	WYSW[1] = liczba%10;
-	WYSW[2] = liczba/10;
-	}else if(lenght(liczba)==1){
-	WYSW[2] = liczba%10;
-	}else if(lenght(liczba)==3){
-	WYSW[0] = liczba%10;
-	WYSW[1] = (liczba/10)%10;
-	WYSW[2] = liczba/100;
-	}
+	liczba = (PWM*100)/255;
+	if(lenght(liczba)==2)
+		{
+		WYSW[1] = liczba%10;
+		WYSW[2] = liczba/10;
+		}
+	else if(lenght(liczba)==1)
+		{
+		WYSW[2] = liczba%10;
+		}
+	else if(lenght(liczba)==3)
+		{
+		WYSW[0] = liczba%10;
+		WYSW[1] = (liczba/10)%10;
+		WYSW[2] = liczba/100;
+		}
 	
 
 	
-  DATW = 'P';
-  BUSYLCD();
+ 	DATW = 'P';
+		while (CTRLR&0x80);
   DATW = 'W';
-  BUSYLCD();
+		while (CTRLR&0x80);
   DATW = 'M';
-  BUSYLCD();
+		while (CTRLR&0x80);
+	DATW = ':';
+		while (CTRLR&0x80);
   DATW = ' ';
-  BUSYLCD();
-  DATW = 'f';
-	BUSYLCD();
-  DATW = ' ';
-  BUSYLCD();
-  DATW=freq[0]+'0';
-  BUSYLCD();
-  DATW=freq[1]+'0';
-  BUSYLCD();
-  DATW=freq[2]+'0';
-  BUSYLCD();
-	DATW=freq[3]+'0';
-  BUSYLCD();
+		while (CTRLR&0x80);
+  DATW=klik[0]+'0';
+		while (CTRLR&0x80);
+	DATW =klik[1]+'0';
+		while (CTRLR&0x80);
+  DATW='.';
+		while (CTRLR&0x80);
+	DATW=klik[2]+'0';
+		while (CTRLR&0x80);
 	DATW=' ';
-  BUSYLCD();
+		while (CTRLR&0x80);
 	DATW='H';
-  BUSYLCD();
+		while (CTRLR&0x80);
 	DATW='z';
-  BUSYLCD();
+		while (CTRLR&0x80);
   CTRLW=0xC0; 
-  BUSYLCD();
-  
-  
- 
-  
- }
+		while (CTRLR&0x80);
+	
+
+}
 }
 
 
@@ -175,15 +194,6 @@ ET1 = 1;
 }
 
 
-// Odczyt z ADCka POT0
-unsigned char POT0(void)
-{
- unsigned char a=0;
- PTAC0=0;
- for(a=0;a<120;a++);
- return PTAC0;
-}
-
 
 
 // Init PWM & Timerów
@@ -191,49 +201,39 @@ void Init(void)
 {
 PWM = 0;         // Wypelnienie 0
 InitTimers();    // Uruchom timer przerwan
-
 }
 
 
-int lenght(int x) {
-    if(x>=1000){
-			return 4;
-		}else if(x>=100){
-			return 3;
-		}else if(x>=10){
-			return 2;
-		}else{
-    return 1;
-		}
+int lenght(int x) 
+{
+    if(x>=1000)	return 4;
+		else if(x>=100) return 3;
+		else if(x>=10) return 2;
+		else return 1;
 }
-
-
-
-
 
 
 // Timer0
 void Timer0 (void) interrupt 1  
 {
 TR0 = 0;    // Stop Timer 0
- 
 TH0 = (unsigned char)(-5000 >> 8);
 TL0 = (unsigned char)(-5000 & 0x00ff);
 	
 if(PWM_Pin)	// Na stan wysoki
-{
-PWM_Pin = 0;
-temp = (255-PWM)*PWMfreq;
-TH0  = 0xFF - (temp>>8)&0xFF;
-TL0  = 0xFF - temp&0xFF;
-}
+	{
+	PWM_Pin = 0;
+	temp = (255-PWM)*PWMfreq;
+	TH0  = 0xFF - (temp>>16)&0xFF;
+	TL0  = 0xFF - temp&0xFF;
+	}
 else	     // Na stan niski
-{
-PWM_Pin = 1;
-temp = PWM*PWMfreq;
-TH0  = 0xFF - (temp>>8)&0xFF;
-TL0  = 0xFF - temp&0xFF;
-}
+	{
+	PWM_Pin = 1;
+	temp = PWM*PWMfreq;
+	TH0  = 0xFF - (temp>>16)&0xFF;
+	TL0  = 0xFF - temp&0xFF;
+	}
  
 TF0 = 0;     // Czyszczenie flagi przerwania
 TR0 = 1;     // Start Timera
@@ -242,48 +242,140 @@ TR0 = 1;     // Start Timera
 
 void Timer1 (void) interrupt 3  
 {
+
 TR1 = 0;    // Stop Timer 0
  
-TH1 = (unsigned char)(-2500 >> 16);
-TL1 = (unsigned char)(-2500 & 0xffff);
+TH1 = (unsigned char)(-2500 >> 8);
+TL1 = (unsigned char)(-2500 & 0x00ff);
 	
-		key_val=++key_val&3; 
-		P1=(P1&0xc0)|0x3c|key_val;
-	  //PSEG=cyferki[Pr];
+		seg=++seg&3; 
+		P1=(P1&0xc0)|0x3c|seg;
 	
-			WLED = cyferki[WYSW[q]];
+		WLED = cyferki[WYSW[q]];
 		if(++q>3){q=0;} 
 	
-	for(wiersz_val = 0;wiersz_val<4; wiersz_val++)
-		{
-				if(!(P1&(4<<wiersz_val)))
-			{
-				key_val = key_val + wiersz_val*4;
-				Pr = key_val;
-				PTWY = Pr;
-			
-				// Super kod filtrujacy klawisze
-				locked = Pr;
-				if(locked==999){
-				}else{
-						if(key_int>4){
-				key_int = 0;
-				}
-				freq[key_int]= Pr;
-				key_int = key_int+1;
-				locked = 999;
-				}
-			
-				
+		k0=P1_0;                         
+		k1=P1_1;                         
 		
-				
+		P1_0=0;
+		P1_1=0;
+		P1_2=1;
+		P1_3=1;
+		P1_4=1;
+		P1_5=1;
+		if (P1_2 == 0)
+			{
+				key_val=0;
+				locked=1;
+			}else if(locked==1 && key_val==0){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
 			}
-
-		}
+		
+		if (P1_3 == 0)
+			{
+				key_val=4;
+				locked=1;
+			}else if(locked==1 && key_val==4){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		if (P1_4 == 0) 
+			{
+				key_val=8;
+				locked=1;
+			}else if(locked==1 && key_val==8){
+				klik[o] = key_val;
+				locked=0;
+				o=o+1;
+			}
+		P1_0=1;
+		P1_2=1;
+		P1_3=1;
+		P1_4=1;
+		P1_5=1;
+		if (P1_2 == 0)
+			{
+			key_val=1;
+			locked=1;
+			}else if(locked==1 && key_val==1){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		if (P1_3 == 0)
+			{
+			key_val=5;
+			locked=1;
+			}else if(locked==1 && key_val==5){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		if (P1_4 == 0) 
+			{
+			key_val=9;
+			locked=1;
+			}else if(locked==1 && key_val==9){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		P1_0=0;
+		P1_1=1;
+		P1_2=1;
+		P1_3=1;
+		P1_4=1;
+		P1_5=1;
+		if (P1_2 == 0)
+			{
+				key_val=2;
+			  locked=1;
+			}else if(locked==1 && key_val==2){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		if (P1_3 == 0)
+			{
+				key_val=6;
+				locked=1;
+			}else if(locked==1 && key_val==6){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		P1_0=1;
+		P1_2=1;
+		P1_3=1;
+		P1_4=1;
+		P1_5=1;
+		if (P1_2 == 0)
+			{
+				key_val=3;
+				locked=1;
+			}else if(locked==1 && key_val==3){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		if (P1_3 == 0)
+			{
+				key_val=7;
+				locked=1;
+			}else if(locked==1 && key_val==7){
+				klik[o] = key_val;
+				o=o+1;
+				locked=0;
+			}
+		P1_0=k0;
+		P1_1=k1;
 	
 	
-	
- 
+	if(o>2){o=0;} 
+		
 TF1 = 0;     // Czyszczenie flagi przerwania
 TR1 = 1;     // Start Timera
 }

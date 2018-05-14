@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-A51 MACRO ASSEMBLER  PROC51                                                               05/05/2018 23:06:01 PAGE     1
-=======
-A51 MACRO ASSEMBLER  PROC51                                                               05/06/2018 00:27:18 PAGE     1
->>>>>>> madagaskar
+A51 MACRO ASSEMBLER  PROC51                                                               05/14/2018 00:58:03 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.7.0
@@ -12,55 +8,26 @@ ASSEMBLER INVOKED BY: G:\Program Files\Keil_v5\C51\BIN\A51.EXE proc51.asm SET(SM
 
 LOC  OBJ            LINE     SOURCE
 
-                       1     ;Oznaczenie pamieci
-                       2     ;BIT, CODE, DATA, IDATA, XDATA, NUMBER
-                       3     
-                       4     ;Wejscie
-                       5     ;Arg Number               char, 1-byte ptr       int, 2-byte ptr                long, float
-                                                      generic ptr
-                       6     ;    1                          R7                   R6 & R7                       R4由7   
-                                                        R1由3
-                       7     ;                                             (MSB in R6,LSB in R7)           (MSB in R4,LS
-                             B in R7)      (Mem type in R3, MSB in R2, LSB in R1)
-                       8     ;    2                          R5                   R4 & R5                       R4由7   
-                                                        R1由3
-                       9     ;                                             (MSB in R4,LSB in R5)           (MSB in R4,LS
-                             B in R7)      (Mem type in R3, MSB in R2, LSB in R1)
-                      10     ;    3                          R3                   R2 & R3                     ----------
-                                                        R1由3
-                      11     ;                                             (MSB in R2,LSB in R3)                        
-                                           (Mem type in R3, MSB in R2, LSB in R1)
-                      12     
-                      13     ;Wyjscie
-                      14     ;bit                                 - Carry bit
-                      15     ;char, unsigned char, 1-byte pointer - R7 
-                      16     ;int, unsigned int, 2-byte ptr       - R6 & R7 MSB in R6, LSB in R7. 
-                      17     ;long,  unsigned long                - R4-R7 MSB in R4, LSB in R7. 
-                      18     ;float R4-R7                         - 32-Bit IEEE format. 
-                      19     ;generic pointer                     - R1-R3 Memory type in R3, MSB R2, LSB R1. 
-                      20     
-  8006                21     PTWY    EQU 8006h
-                      22     
-                      23     PRGSEG          SEGMENT CODE
-                      24     
-                      25                     PUBLIC  POTASM
-                      26                     
-----                  27                     RSEG    PRGSEG
-                      28                             
-                      29     ; Niby zapala odpowiednie diody ale i bez tego chyba pewnie bedzie dzialac XD
-0000 908006           30     POTASM:             mov DPTR, #PTWY                     ;Przenosimy to co jest w 8008h to d
-                             ptr
-0003 E0               31                                     movx A, @DPTR                   ;przenosimy to co w dptr do
-                              akumulatora.
-0004 22               32                                     RET                                             ;Wracamy do
-                              jezyka C.
-                      33     
-                      34                     END
-<<<<<<< HEAD
-A51 MACRO ASSEMBLER  PROC51                                                               05/05/2018 23:06:01 PAGE     2
-=======
-A51 MACRO ASSEMBLER  PROC51                                                               05/06/2018 00:27:18 PAGE     2
->>>>>>> madagaskar
+  8000                 1     PTAC EQU 8000H
+  8005                 2     POTO EQU 8005H
+                       3     PROG    SEGMENT CODE
+                       4             public potencjometr
+----                   5                     RSEG PROG
+0000                   6     potencjometr:
+0000 908005            7             MOV DPTR,#POTO
+0003 F0                8             MOVX @DPTR,A
+0004 78FF              9             MOV R0,#255
+0006 79FF             10             MOV R1,#255
+0008                  11             skok1:
+0008                  12             skok:
+0008 D8FE             13             DJNZ R0,skok
+000A D9FC             14             DJNZ R1,skok1
+000C 908000           15             MOV DPTR,#PTAC
+000F E0               16             MOVX A,@DPTR
+0010 FF               17             MOV R7,A
+0011 22               18     ret
+                      19     end
+A51 MACRO ASSEMBLER  PROC51                                                               05/14/2018 00:58:03 PAGE     2
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -68,9 +35,12 @@ SYMBOL TABLE LISTING
 
 N A M E             T Y P E  V A L U E   ATTRIBUTES
 
-POTASM . . . . . .  C ADDR   0000H   R   SEG=PRGSEG
-PRGSEG . . . . . .  C SEG    0005H       REL=UNIT
-PTWY . . . . . . .  N NUMB   8006H   A   
+POTENCJOMETR . . .  C ADDR   0000H   R   SEG=PROG
+POTO . . . . . . .  N NUMB   8005H   A   
+PROG . . . . . . .  C SEG    0012H       REL=UNIT
+PTAC . . . . . . .  N NUMB   8000H   A   
+SKOK . . . . . . .  C ADDR   0008H   R   SEG=PROG
+SKOK1. . . . . . .  C ADDR   0008H   R   SEG=PROG
 
 
 REGISTER BANK(S) USED: 0 
