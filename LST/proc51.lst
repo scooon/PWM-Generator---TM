@@ -1,10 +1,10 @@
-A51 MACRO ASSEMBLER  PROC51                                                               05/14/2018 00:58:03 PAGE     1
+A51 MACRO ASSEMBLER  PROC51                                                               05/14/2018 20:10:08 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.7.0
 OBJECT MODULE PLACED IN .\EXE\proc51.obj
-ASSEMBLER INVOKED BY: G:\Program Files\Keil_v5\C51\BIN\A51.EXE proc51.asm SET(SMALL) DEBUG PRINT(.\LST\proc51.lst) OBJEC
-                      T(.\EXE\proc51.obj) EP
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE proc51.asm SET(SMALL) DEBUG PRINT(.\LST\proc51.lst) OBJECT(.\EXE\proc51
+                      .obj) EP
 
 LOC  OBJ            LINE     SOURCE
 
@@ -27,7 +27,7 @@ LOC  OBJ            LINE     SOURCE
 0010 FF               17             MOV R7,A
 0011 22               18     ret
                       19     end
-A51 MACRO ASSEMBLER  PROC51                                                               05/14/2018 00:58:03 PAGE     2
+A51 MACRO ASSEMBLER  PROC51                                                               05/14/2018 20:10:08 PAGE     2
 
 SYMBOL TABLE LISTING
 ------ ----- -------

@@ -97,31 +97,10 @@ void main (void)
 	 PWMfreq = 100;
 	 klik[0] = 100;
 	 }
+	 
   b=potencjometr();
   PWM = b; 
-  DATW = 'W';
-		while (CTRLR&0x80);
-  DATW = 'Y';
-		while (CTRLR&0x80);
-  DATW = 'P';
-	 	while (CTRLR&0x80);
-	DATW = ':';
-		while (CTRLR&0x80);
-  DATW = ' ';
-		while (CTRLR&0x80);
-	b=(b*100)/255;
-  DATW=b/100+'0';
-		while (CTRLR&0x80);
-  DATW=(b/10)%10+'0';
-		while (CTRLR&0x80);
-  DATW=b%10+'0';
-		while (CTRLR&0x80);
-	DATW=' ';
-		while (CTRLR&0x80);
-	DATW='%';
-		while (CTRLR&0x80);		
-	CTRLW=0x80; 
-		while (CTRLR&0x80);
+
 	
 	// Wypelnienie WLED
 	for(z=0;z<4;z++){WYSW[z] = 16;};
@@ -169,7 +148,7 @@ void main (void)
 		while (CTRLR&0x80);
 	DATW='z';
 		while (CTRLR&0x80);
-  CTRLW=0xC0; 
+  CTRLW=0x80; 
 		while (CTRLR&0x80);
 	
 

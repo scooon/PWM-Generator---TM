@@ -1,10 +1,10 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 04:18:17 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 21:21:37 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\EXE\main.obj
-COMPILER INVOKED BY: G:\Program Files\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
-                    -\LST\main.lst) TABS(2) OBJECT(.\EXE\main.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\LST\main.lst)
+                    - TABS(2) OBJECT(.\EXE\main.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   51          unsigned int cyfra = 0;
   52           unsigned int b;
   53           int h = 0, liczba;
-C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 04:18:17 PAGE 2   
+C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 21:21:37 PAGE 2   
 
   54          
   55          void Init_LCD(void)
@@ -110,303 +110,282 @@ line level    source
   97   3         PWMfreq = 100;
   98   3         klik[0] = 100;
   99   3         }
- 100   2        b=potencjometr();
-*** WARNING C206 IN LINE 100 OF main.c: 'potencjometr': missing function-prototype
- 101   2        PWM = b; 
- 102   2        DATW = 'W';
- 103   2          while (CTRLR&0x80);
- 104   2        DATW = 'Y';
- 105   2          while (CTRLR&0x80);
- 106   2        DATW = 'P';
- 107   2          while (CTRLR&0x80);
- 108   2        DATW = ':';
- 109   2          while (CTRLR&0x80);
- 110   2        DATW = ' ';
- 111   2          while (CTRLR&0x80);
- 112   2        b=(b*100)/255;
- 113   2        DATW=b/100+'0';
- 114   2          while (CTRLR&0x80);
-C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 04:18:17 PAGE 3   
+ 100   2         
+ 101   2        b=potencjometr();
+*** WARNING C206 IN LINE 101 OF main.c: 'potencjometr': missing function-prototype
+ 102   2        PWM = b; 
+ 103   2      
+ 104   2        
+ 105   2        // Wypelnienie WLED
+ 106   2        for(z=0;z<4;z++){WYSW[z] = 16;};
+ 107   2      
+ 108   2        liczba = (PWM*100)/255;
+ 109   2        if(lenght(liczba)==2)
+ 110   2          {
+ 111   3          WYSW[1] = liczba%10;
+ 112   3          WYSW[2] = liczba/10;
+ 113   3          }
+ 114   2        else if(lenght(liczba)==1)
+C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 21:21:37 PAGE 3   
 
- 115   2        DATW=(b/10)%10+'0';
- 116   2          while (CTRLR&0x80);
- 117   2        DATW=b%10+'0';
- 118   2          while (CTRLR&0x80);
- 119   2        DATW=' ';
- 120   2          while (CTRLR&0x80);
- 121   2        DATW='%';
- 122   2          while (CTRLR&0x80);   
- 123   2        CTRLW=0x80; 
- 124   2          while (CTRLR&0x80);
- 125   2        
- 126   2        // Wypelnienie WLED
- 127   2        for(z=0;z<4;z++){WYSW[z] = 16;};
- 128   2      
- 129   2        liczba = (PWM*100)/255;
- 130   2        if(lenght(liczba)==2)
- 131   2          {
- 132   3          WYSW[1] = liczba%10;
- 133   3          WYSW[2] = liczba/10;
- 134   3          }
- 135   2        else if(lenght(liczba)==1)
- 136   2          {
- 137   3          WYSW[2] = liczba%10;
- 138   3          }
- 139   2        else if(lenght(liczba)==3)
- 140   2          {
- 141   3          WYSW[0] = liczba%10;
- 142   3          WYSW[1] = (liczba/10)%10;
- 143   3          WYSW[2] = liczba/100;
- 144   3          }
- 145   2        
- 146   2      
- 147   2        
- 148   2        DATW = 'P';
- 149   2          while (CTRLR&0x80);
- 150   2        DATW = 'W';
- 151   2          while (CTRLR&0x80);
- 152   2        DATW = 'M';
- 153   2          while (CTRLR&0x80);
- 154   2        DATW = ':';
- 155   2          while (CTRLR&0x80);
- 156   2        DATW = ' ';
- 157   2          while (CTRLR&0x80);
- 158   2        DATW=klik[0]+'0';
- 159   2          while (CTRLR&0x80);
- 160   2        DATW =klik[1]+'0';
- 161   2          while (CTRLR&0x80);
- 162   2        DATW='.';
- 163   2          while (CTRLR&0x80);
- 164   2        DATW=klik[2]+'0';
- 165   2          while (CTRLR&0x80);
- 166   2        DATW=' ';
- 167   2          while (CTRLR&0x80);
- 168   2        DATW='H';
- 169   2          while (CTRLR&0x80);
- 170   2        DATW='z';
- 171   2          while (CTRLR&0x80);
- 172   2        CTRLW=0xC0; 
- 173   2          while (CTRLR&0x80);
- 174   2        
- 175   2      
- 176   2      }
-C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 04:18:17 PAGE 4   
+ 115   2          {
+ 116   3          WYSW[2] = liczba%10;
+ 117   3          }
+ 118   2        else if(lenght(liczba)==3)
+ 119   2          {
+ 120   3          WYSW[0] = liczba%10;
+ 121   3          WYSW[1] = (liczba/10)%10;
+ 122   3          WYSW[2] = liczba/100;
+ 123   3          }
+ 124   2        
+ 125   2      
+ 126   2        
+ 127   2        DATW = 'P';
+ 128   2          while (CTRLR&0x80);
+ 129   2        DATW = 'W';
+ 130   2          while (CTRLR&0x80);
+ 131   2        DATW = 'M';
+ 132   2          while (CTRLR&0x80);
+ 133   2        DATW = ':';
+ 134   2          while (CTRLR&0x80);
+ 135   2        DATW = ' ';
+ 136   2          while (CTRLR&0x80);
+ 137   2        DATW=klik[0]+'0';
+ 138   2          while (CTRLR&0x80);
+ 139   2        DATW =klik[1]+'0';
+ 140   2          while (CTRLR&0x80);
+ 141   2        DATW='.';
+ 142   2          while (CTRLR&0x80);
+ 143   2        DATW=klik[2]+'0';
+ 144   2          while (CTRLR&0x80);
+ 145   2        DATW=' ';
+ 146   2          while (CTRLR&0x80);
+ 147   2        DATW='H';
+ 148   2          while (CTRLR&0x80);
+ 149   2        DATW='z';
+ 150   2          while (CTRLR&0x80);
+ 151   2        CTRLW=0x80; 
+ 152   2          while (CTRLR&0x80);
+ 153   2        
+ 154   2      
+ 155   2      }
+ 156   1      }
+ 157          
+ 158          
+ 159          // Timer0 init
+ 160          void InitTimers(void)
+ 161          {
+ 162   1      TMOD = 0x11;    // Zalaczanie przerwania 1 i 2
+ 163   1      TCON = 0x50;
+ 164   1      TH0 = 0x00;      // First time value
+ 165   1      TL0 = 0x00; 
+ 166   1      TH1 = 0x00;      // First time value
+ 167   1      TL1 = 0x00; 
+ 168   1      ET0 = 1;         // Enable przerwan
+ 169   1      EA  = 2;        
+ 170   1      TR0 = 1; 
+ 171   1      TR1 = 1;  
+ 172   1      ET1 = 1;
+ 173   1      }
+ 174          
+ 175          
+ 176          
+C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 21:21:37 PAGE 4   
 
- 177   1      }
- 178          
- 179          
- 180          // Timer0 init
- 181          void InitTimers(void)
- 182          {
- 183   1      TMOD = 0x11;    // Zalaczanie przerwania 1 i 2
- 184   1      TCON = 0x50;
- 185   1      TH0 = 0x00;      // First time value
- 186   1      TL0 = 0x00; 
- 187   1      TH1 = 0x00;      // First time value
- 188   1      TL1 = 0x00; 
- 189   1      ET0 = 1;         // Enable przerwan
- 190   1      EA  = 2;        
- 191   1      TR0 = 1; 
- 192   1      TR1 = 1;  
- 193   1      ET1 = 1;
- 194   1      }
- 195          
- 196          
- 197          
- 198          
- 199          // Init PWM & Timerów
- 200          void Init(void)
- 201          {
- 202   1      PWM = 0;         // Wypelnienie 0
- 203   1      InitTimers();    // Uruchom timer przerwan
- 204   1      }
- 205          
- 206          
- 207          int lenght(int x) 
- 208          {
- 209   1          if(x>=1000) return 4;
- 210   1          else if(x>=100) return 3;
- 211   1          else if(x>=10) return 2;
- 212   1          else return 1;
- 213   1      }
- 214          
- 215          
- 216          // Timer0
- 217          void Timer0 (void) interrupt 1  
- 218          {
- 219   1      TR0 = 0;    // Stop Timer 0
- 220   1      TH0 = (unsigned char)(-5000 >> 8);
- 221   1      TL0 = (unsigned char)(-5000 & 0x00ff);
- 222   1        
- 223   1      if(PWM_Pin) // Na stan wysoki
- 224   1        {
- 225   2        PWM_Pin = 0;
- 226   2        temp = (255-PWM)*PWMfreq;
- 227   2        TH0  = 0xFF - (temp>>16)&0xFF;
- 228   2        TL0  = 0xFF - temp&0xFF;
- 229   2        }
- 230   1      else       // Na stan niski
- 231   1        {
- 232   2        PWM_Pin = 1;
- 233   2        temp = PWM*PWMfreq;
- 234   2        TH0  = 0xFF - (temp>>16)&0xFF;
- 235   2        TL0  = 0xFF - temp&0xFF;
- 236   2        }
- 237   1       
- 238   1      TF0 = 0;     // Czyszczenie flagi przerwania
-C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 04:18:17 PAGE 5   
+ 177          
+ 178          // Init PWM & Timerów
+ 179          void Init(void)
+ 180          {
+ 181   1      PWM = 0;         // Wypelnienie 0
+ 182   1      InitTimers();    // Uruchom timer przerwan
+ 183   1      }
+ 184          
+ 185          
+ 186          int lenght(int x) 
+ 187          {
+ 188   1          if(x>=1000) return 4;
+ 189   1          else if(x>=100) return 3;
+ 190   1          else if(x>=10) return 2;
+ 191   1          else return 1;
+ 192   1      }
+ 193          
+ 194          
+ 195          // Timer0
+ 196          void Timer0 (void) interrupt 1  
+ 197          {
+ 198   1      TR0 = 0;    // Stop Timer 0
+ 199   1      TH0 = (unsigned char)(-5000 >> 8);
+ 200   1      TL0 = (unsigned char)(-5000 & 0x00ff);
+ 201   1        
+ 202   1      if(PWM_Pin) // Na stan wysoki
+ 203   1        {
+ 204   2        PWM_Pin = 0;
+ 205   2        temp = (255-PWM)*PWMfreq;
+ 206   2        TH0  = 0xFF - (temp>>16)&0xFF;
+ 207   2        TL0  = 0xFF - temp&0xFF;
+ 208   2        }
+ 209   1      else       // Na stan niski
+ 210   1        {
+ 211   2        PWM_Pin = 1;
+ 212   2        temp = PWM*PWMfreq;
+ 213   2        TH0  = 0xFF - (temp>>16)&0xFF;
+ 214   2        TL0  = 0xFF - temp&0xFF;
+ 215   2        }
+ 216   1       
+ 217   1      TF0 = 0;     // Czyszczenie flagi przerwania
+ 218   1      TR0 = 1;     // Start Timera
+ 219   1      }
+ 220          
+ 221          
+ 222          void Timer1 (void) interrupt 3  
+ 223          {
+ 224   1      
+ 225   1      TR1 = 0;    // Stop Timer 0
+ 226   1       
+ 227   1      TH1 = (unsigned char)(-2500 >> 8);
+ 228   1      TL1 = (unsigned char)(-2500 & 0x00ff);
+ 229   1        
+ 230   1          seg=++seg&3; 
+ 231   1          P1=(P1&0xc0)|0x3c|seg;
+ 232   1        
+ 233   1          WLED = cyferki[WYSW[q]];
+ 234   1          if(++q>3){q=0;} 
+ 235   1        
+ 236   1          k0=P1_0;                         
+ 237   1          k1=P1_1;                         
+ 238   1          
+C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 21:21:37 PAGE 5   
 
- 239   1      TR0 = 1;     // Start Timera
- 240   1      }
- 241          
- 242          
- 243          void Timer1 (void) interrupt 3  
- 244          {
- 245   1      
- 246   1      TR1 = 0;    // Stop Timer 0
- 247   1       
- 248   1      TH1 = (unsigned char)(-2500 >> 8);
- 249   1      TL1 = (unsigned char)(-2500 & 0x00ff);
- 250   1        
- 251   1          seg=++seg&3; 
- 252   1          P1=(P1&0xc0)|0x3c|seg;
- 253   1        
- 254   1          WLED = cyferki[WYSW[q]];
- 255   1          if(++q>3){q=0;} 
- 256   1        
- 257   1          k0=P1_0;                         
- 258   1          k1=P1_1;                         
- 259   1          
- 260   1          P1_0=0;
- 261   1          P1_1=0;
- 262   1          P1_2=1;
- 263   1          P1_3=1;
- 264   1          P1_4=1;
- 265   1          P1_5=1;
- 266   1          if (P1_2 == 0)
- 267   1            {
- 268   2              key_val=0;
- 269   2              locked=1;
- 270   2            }else if(locked==1 && key_val==0){
- 271   2              klik[o] = key_val;
- 272   2              o=o+1;
- 273   2              locked=0;
- 274   2            }
- 275   1          
- 276   1          if (P1_3 == 0)
- 277   1            {
- 278   2              key_val=4;
- 279   2              locked=1;
- 280   2            }else if(locked==1 && key_val==4){
- 281   2              klik[o] = key_val;
- 282   2              o=o+1;
- 283   2              locked=0;
- 284   2            }
- 285   1          if (P1_4 == 0) 
- 286   1            {
- 287   2              key_val=8;
- 288   2              locked=1;
- 289   2            }else if(locked==1 && key_val==8){
- 290   2              klik[o] = key_val;
- 291   2              locked=0;
- 292   2              o=o+1;
- 293   2            }
- 294   1          P1_0=1;
- 295   1          P1_2=1;
- 296   1          P1_3=1;
- 297   1          P1_4=1;
- 298   1          P1_5=1;
- 299   1          if (P1_2 == 0)
- 300   1            {
-C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 04:18:17 PAGE 6   
+ 239   1          P1_0=0;
+ 240   1          P1_1=0;
+ 241   1          P1_2=1;
+ 242   1          P1_3=1;
+ 243   1          P1_4=1;
+ 244   1          P1_5=1;
+ 245   1          if (P1_2 == 0)
+ 246   1            {
+ 247   2              key_val=0;
+ 248   2              locked=1;
+ 249   2            }else if(locked==1 && key_val==0){
+ 250   2              klik[o] = key_val;
+ 251   2              o=o+1;
+ 252   2              locked=0;
+ 253   2            }
+ 254   1          
+ 255   1          if (P1_3 == 0)
+ 256   1            {
+ 257   2              key_val=4;
+ 258   2              locked=1;
+ 259   2            }else if(locked==1 && key_val==4){
+ 260   2              klik[o] = key_val;
+ 261   2              o=o+1;
+ 262   2              locked=0;
+ 263   2            }
+ 264   1          if (P1_4 == 0) 
+ 265   1            {
+ 266   2              key_val=8;
+ 267   2              locked=1;
+ 268   2            }else if(locked==1 && key_val==8){
+ 269   2              klik[o] = key_val;
+ 270   2              locked=0;
+ 271   2              o=o+1;
+ 272   2            }
+ 273   1          P1_0=1;
+ 274   1          P1_2=1;
+ 275   1          P1_3=1;
+ 276   1          P1_4=1;
+ 277   1          P1_5=1;
+ 278   1          if (P1_2 == 0)
+ 279   1            {
+ 280   2            key_val=1;
+ 281   2            locked=1;
+ 282   2            }else if(locked==1 && key_val==1){
+ 283   2              klik[o] = key_val;
+ 284   2              o=o+1;
+ 285   2              locked=0;
+ 286   2            }
+ 287   1          if (P1_3 == 0)
+ 288   1            {
+ 289   2            key_val=5;
+ 290   2            locked=1;
+ 291   2            }else if(locked==1 && key_val==5){
+ 292   2              klik[o] = key_val;
+ 293   2              o=o+1;
+ 294   2              locked=0;
+ 295   2            }
+ 296   1          if (P1_4 == 0) 
+ 297   1            {
+ 298   2            key_val=9;
+ 299   2            locked=1;
+ 300   2            }else if(locked==1 && key_val==9){
+C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 21:21:37 PAGE 6   
 
- 301   2            key_val=1;
- 302   2            locked=1;
- 303   2            }else if(locked==1 && key_val==1){
- 304   2              klik[o] = key_val;
- 305   2              o=o+1;
- 306   2              locked=0;
- 307   2            }
- 308   1          if (P1_3 == 0)
- 309   1            {
- 310   2            key_val=5;
- 311   2            locked=1;
- 312   2            }else if(locked==1 && key_val==5){
- 313   2              klik[o] = key_val;
- 314   2              o=o+1;
- 315   2              locked=0;
- 316   2            }
- 317   1          if (P1_4 == 0) 
- 318   1            {
- 319   2            key_val=9;
- 320   2            locked=1;
- 321   2            }else if(locked==1 && key_val==9){
- 322   2              klik[o] = key_val;
- 323   2              o=o+1;
- 324   2              locked=0;
- 325   2            }
- 326   1          P1_0=0;
- 327   1          P1_1=1;
- 328   1          P1_2=1;
- 329   1          P1_3=1;
- 330   1          P1_4=1;
- 331   1          P1_5=1;
- 332   1          if (P1_2 == 0)
- 333   1            {
- 334   2              key_val=2;
- 335   2              locked=1;
- 336   2            }else if(locked==1 && key_val==2){
- 337   2              klik[o] = key_val;
- 338   2              o=o+1;
- 339   2              locked=0;
- 340   2            }
- 341   1          if (P1_3 == 0)
- 342   1            {
- 343   2              key_val=6;
- 344   2              locked=1;
- 345   2            }else if(locked==1 && key_val==6){
- 346   2              klik[o] = key_val;
- 347   2              o=o+1;
- 348   2              locked=0;
- 349   2            }
- 350   1          P1_0=1;
- 351   1          P1_2=1;
- 352   1          P1_3=1;
- 353   1          P1_4=1;
- 354   1          P1_5=1;
- 355   1          if (P1_2 == 0)
- 356   1            {
- 357   2              key_val=3;
- 358   2              locked=1;
- 359   2            }else if(locked==1 && key_val==3){
- 360   2              klik[o] = key_val;
- 361   2              o=o+1;
- 362   2              locked=0;
-C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 04:18:17 PAGE 7   
+ 301   2              klik[o] = key_val;
+ 302   2              o=o+1;
+ 303   2              locked=0;
+ 304   2            }
+ 305   1          P1_0=0;
+ 306   1          P1_1=1;
+ 307   1          P1_2=1;
+ 308   1          P1_3=1;
+ 309   1          P1_4=1;
+ 310   1          P1_5=1;
+ 311   1          if (P1_2 == 0)
+ 312   1            {
+ 313   2              key_val=2;
+ 314   2              locked=1;
+ 315   2            }else if(locked==1 && key_val==2){
+ 316   2              klik[o] = key_val;
+ 317   2              o=o+1;
+ 318   2              locked=0;
+ 319   2            }
+ 320   1          if (P1_3 == 0)
+ 321   1            {
+ 322   2              key_val=6;
+ 323   2              locked=1;
+ 324   2            }else if(locked==1 && key_val==6){
+ 325   2              klik[o] = key_val;
+ 326   2              o=o+1;
+ 327   2              locked=0;
+ 328   2            }
+ 329   1          P1_0=1;
+ 330   1          P1_2=1;
+ 331   1          P1_3=1;
+ 332   1          P1_4=1;
+ 333   1          P1_5=1;
+ 334   1          if (P1_2 == 0)
+ 335   1            {
+ 336   2              key_val=3;
+ 337   2              locked=1;
+ 338   2            }else if(locked==1 && key_val==3){
+ 339   2              klik[o] = key_val;
+ 340   2              o=o+1;
+ 341   2              locked=0;
+ 342   2            }
+ 343   1          if (P1_3 == 0)
+ 344   1            {
+ 345   2              key_val=7;
+ 346   2              locked=1;
+ 347   2            }else if(locked==1 && key_val==7){
+ 348   2              klik[o] = key_val;
+ 349   2              o=o+1;
+ 350   2              locked=0;
+ 351   2            }
+ 352   1          P1_0=k0;
+ 353   1          P1_1=k1;
+ 354   1        
+ 355   1        
+ 356   1        if(o>2){o=0;} 
+ 357   1          
+ 358   1      TF1 = 0;     // Czyszczenie flagi przerwania
+ 359   1      TR1 = 1;     // Start Timera
+ 360   1      }
 
- 363   2            }
- 364   1          if (P1_3 == 0)
- 365   1            {
- 366   2              key_val=7;
- 367   2              locked=1;
- 368   2            }else if(locked==1 && key_val==7){
- 369   2              klik[o] = key_val;
- 370   2              o=o+1;
- 371   2              locked=0;
- 372   2            }
- 373   1          P1_0=k0;
- 374   1          P1_1=k1;
- 375   1        
- 376   1        
- 377   1        if(o>2){o=0;} 
- 378   1          
- 379   1      TF1 = 0;     // Czyszczenie flagi przerwania
- 380   1      TR1 = 1;     // Start Timera
- 381   1      }
 
+C51 COMPILER V9.57.0.0   MAIN                                                              05/14/2018 21:21:37 PAGE 7   
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1661    ----
+   CODE SIZE        =   1459    ----
    CONSTANT SIZE    =     17    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
